@@ -95,7 +95,7 @@ export default function App() {
       paddingTop: "4px",
     },
     telugu: {
-      fontFamily: "'Noto Sans Telugu', Lexend, sans-serif",
+      fontFamily: "'Noto Sans Telugu', Lexend ",
       fontSize: "9px",
     },
   };
