@@ -2,37 +2,38 @@ import React, { useEffect, useRef } from "react";
 
 // --- START: NEW PRINT STYLES ---
 // Add this new component. It injects CSS specifically for printing.
+// This is the only part you need to update in App.js
+
 const PrintStyles = () => (
   <style type="text/css" media="print">
     {`
       @page {
-        /* Set the paper size to 80mm width. 
-           The height will adjust automatically to fit the content. */
-        size: 80mm auto;
+        /* This is the most important rule */
+        size: 80mm auto; 
         
         /* Remove printer-added margins */
         margin: 0mm; 
       }
       
-      body {
-        margin: 0;
-        padding: 0;
+      /* Force the body and html to have no margins in print */
+      html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 80mm; /* Be explicit */
       }
       
       /* Target your receipt container for printing */
       #receipt-container {
+        /* Remove web-only styles for print */
+        margin: 0 !important;
+        padding: 5px !important; /* Keep your internal padding */
+        box-shadow: none !important;
+        border: none !important;
+        
         /* Ensure it's the only thing visible */
         position: absolute;
         top: 0;
         left: 0;
-        
-        /* Remove web-only styles */
-        margin: 0 !important;
-        box-shadow: none !important;
-        border: none !important;
-        
-        /* Keep your original padding */
-        padding: 5px !important; 
       }
     `}
   </style>
