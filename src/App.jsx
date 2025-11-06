@@ -8,7 +8,7 @@ const readQuery = (key) => {
 const safeDecode = (v) => {
   try {
     return v ? decodeURIComponent(v) : null;
-  } catch (e) {
+  } catch {
     return v;
   }
 };
@@ -26,7 +26,6 @@ const parseComponents = (str) => {
 export default function App() {
   const pdfRef = useRef(null);
 
-  // Read data from query
   const problem_name_te = safeDecode(readQuery("problem_name_te")) || "";
   const problem_name_en = safeDecode(readQuery("problem_name_en")) || "Advisory";
   const category = safeDecode(readQuery("category")) || "-";
@@ -37,18 +36,13 @@ export default function App() {
   const receipt_id = safeDecode(readQuery("receipt_id")) || `ADV-${Date.now()}`;
   const dateIST = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
 
+  // 🔸 Auto-open print dialog after fonts load
   useEffect(() => {
-    const printAfterFonts = async () => {
-      if (document.fonts && document.fonts.ready) {
-        await document.fonts.ready;
-      } else {
-        await new Promise((r) => setTimeout(r, 1000));
-      }
-      setTimeout(() => {
-        window.print(); // 🖨️ directly opens print window
-      }, 600);
+    const triggerPrint = async () => {
+      if (document.fonts && document.fonts.ready) await document.fonts.ready;
+      setTimeout(() => window.print(), 600);
     };
-    printAfterFonts();
+    triggerPrint();
   }, []);
 
   const styles = {
@@ -56,7 +50,7 @@ export default function App() {
       width: "80mm",
       maxWidth: "80mm",
       margin: "0 auto",
-      padding: "6px",
+      padding: "5px",
       fontFamily: "Lexend, 'Noto Sans Telugu', sans-serif",
       fontSize: "9.5px",
       lineHeight: 1.25,
@@ -68,21 +62,9 @@ export default function App() {
       borderBottom: "1px dashed #000",
       paddingBottom: "6px",
     },
-    logo: {
-      height: "50px",
-      display: "block",
-      margin: "0 auto 4px",
-    },
-    companyName: {
-      fontWeight: "700",
-      fontSize: "12px",
-      margin: "2px 0",
-    },
-    companyTag: {
-      fontSize: "9px",
-      fontStyle: "italic",
-      margin: "2px 0",
-    },
+    logo: { height: "50px", display: "block", margin: "0 auto 4px" },
+    companyName: { fontWeight: "700", fontSize: "12px", margin: "2px 0" },
+    companyTag: { fontSize: "9px", fontStyle: "italic", margin: "2px 0" },
     teluguTitle: {
       fontFamily: "'Noto Sans Telugu', Lexend, sans-serif",
       textAlign: "center",
@@ -103,7 +85,7 @@ export default function App() {
       padding: "3px",
       backgroundColor: "#f5f5f5",
       border: "1px solid #ddd",
-      fontSize: "10px",
+      fontSize: "9.5px",
     },
     footer: {
       textAlign: "center",
@@ -134,7 +116,7 @@ export default function App() {
       </div>
 
       <div style={styles.teluguTitle}>
-        {problem_name_te ? problem_name_te : problem_name_en}
+        {problem_name_te || problem_name_en}
       </div>
 
       <div style={styles.infoRow}>
