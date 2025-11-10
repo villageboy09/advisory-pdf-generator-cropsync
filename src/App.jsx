@@ -9,10 +9,10 @@ const PrintStyles = () => (
     {`
       @page {
         /* This is the most important rule */
-        size: 80mm auto; 
+        size: 80mm 120mm;
         
         /* Remove printer-added margins */
-        margin: 0mm; 
+        margin: 0mm;
       }
       
       /* Force the body and html to have no margins in print */
@@ -20,6 +20,7 @@ const PrintStyles = () => (
         margin: 0 !important;
         padding: 0 !important;
         width: 80mm; /* Be explicit */
+        height: 120mm;
       }
       
       /* Target your receipt container for printing */
@@ -34,6 +35,8 @@ const PrintStyles = () => (
         position: absolute;
         top: 0;
         left: 0;
+        width: 80mm;
+        min-height: 120mm;
       }
     `}
   </style>
@@ -98,6 +101,7 @@ export default function App() {
       fontSize: "9.5px",
       lineHeight: 1.25,
       color: "#000",
+      minHeight: "120mm",
     },
     // ... (All your other 'styles' objects are perfect) ...
     header: {
