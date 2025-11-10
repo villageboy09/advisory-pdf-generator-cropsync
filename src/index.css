@@ -16,13 +16,6 @@
     background: white;
   }
 
-  /* Optional: hide everything except the receipt container */
-  body * {
-    visibility: hidden;
-  }
-  #root > * {
-    visibility: visible;
-  }
   #root {
     margin: 0 auto;
     width: 80mm;
