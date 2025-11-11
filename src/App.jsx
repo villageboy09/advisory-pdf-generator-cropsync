@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 
 // --- START: NEW PRINT STYLES ---
 // Add this new component. It injects CSS specifically for printing.
@@ -30,11 +30,9 @@ const PrintStyles = () => (
         padding: 5px !important; /* Keep your internal padding */
         box-shadow: none !important;
         border: none !important;
-        
-        /* Ensure it's the only thing visible */
-        position: absolute;
-        top: 0;
-        left: 0;
+
+        /* Allow content to flow naturally */
+        position: relative;
         width: 80mm;
         min-height: 120mm;
       }
@@ -70,8 +68,6 @@ const parseComponents = (str) => {
 
 
 export default function App() {
-  const pdfRef = useRef(null);
-
   const problem_name_te = safeDecode(readQuery("problem_name_te")) || "";
   const problem_name_en = safeDecode(readQuery("problem_name_en")) || "Advisory";
   const category = safeDecode(readQuery("category")) || "-";
@@ -154,8 +150,8 @@ export default function App() {
       {/* ADD THIS COMPONENT */}
       <PrintStyles />
       
-      {/* ADD id="receipt-container" TO THIS DIV */}
-      <div ref={pdfRef} id="receipt-container" style={styles.container}>
+      {/* Receipt container */}
+      <div id="receipt-container" style={styles.container}>
         
         {/* ... (All your existing receipt JSX content) ... */}
         
