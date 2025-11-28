@@ -1,55 +1,54 @@
 import React, { useEffect, useRef } from "react";
 
-// --- START: NEW PRINT STYLES ---
-// Add this new component. It injects CSS specifically for printing.
-// This is the only part you need to update in App.js
-
+// --- UPDATED PRINT STYLES ---
 const PrintStyles = () => (
   <style type="text/css" media="print">
     {`
+      /* 1. Set the physical paper size */
       @page {
-        /* This is the most important rule */
         size: 80mm 120mm;
-        
-        /* Remove printer-added margins */
         margin: 0mm;
       }
-      
-      /* Force the body and html to have no margins in print */
+
+      /* 2. Reset html/body to allow full width usage */
       html, body {
+        width: 80mm !important;
+        height: 120mm !important;
         margin: 0 !important;
         padding: 0 !important;
-        width: 80mm; /* Be explicit */
-        height: 120mm;
+        background-color: white;
       }
-      
-      /* Target your receipt container for printing */
+
+      /* 3. Hide EVERYTHING in the app initially */
+      body * {
+        visibility: hidden;
+        height: 0; /* Collapses space of hidden elements */
+      }
+
+      /* 4. Make the Receipt Container Visible and Positioned */
+      #receipt-container, #receipt-container * {
+        visibility: visible;
+        height: auto; /* Restore height */
+      }
+
       #receipt-container {
-        /* Remove web-only styles for print */
-        margin: 0 !important;
-        padding: 5px !important; /* Keep your internal padding */
-        box-shadow: none !important;
-        border: none !important;
-        
-        /* Ensure it's the only thing visible */
-        position: absolute;
-        top: 0;
+        position: fixed; /* Fixed puts it relative to the window/paper, ignoring parent divs */
         left: 0;
-        width: 80mm;
-        min-height: 120mm;
+        top: 0;
+        width: 80mm !important;
+        margin: 0 !important;
+        padding: 5px !important; /* Your internal padding */
+        box-sizing: border-box; /* Ensures padding doesn't expand width beyond 80mm */
       }
     `}
   </style>
 );
-// --- END: NEW PRINT STYLES ---
-
 
 const readQuery = (key) => {
   const params = new URLSearchParams(window.location.search);
   return params.get(key);
 };
 
-// ... (Your other helper functions 'safeDecode' and 'parseComponents' are perfect) ...
 const safeDecode = (v) => {
   try {
     return v ? decodeURIComponent(v) : null;
@@ -68,7 +67,6 @@ const parseComponents = (str) => {
   }
 };
 
-
 export default function App() {
   const pdfRef = useRef(null);
 
@@ -82,11 +80,10 @@ export default function App() {
   const receipt_id = safeDecode(readQuery("receipt_id")) || `ADV-${Date.now()}`;
   const dateIST = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
 
-  // 🔸 Auto-open print dialog after fonts load
   useEffect(() => {
     const triggerPrint = async () => {
-      if (document.fonts && document.fonts.ready) await document.fonts.ready;
-      setTimeout(() => window.print(), 600);
+      // Small delay to allow images to paint
+      setTimeout(() => window.print(), 800);
     };
     triggerPrint();
   }, []);
@@ -94,16 +91,15 @@ export default function App() {
   const styles = {
     container: {
       width: "80mm",
-      maxWidth: "80mm",
-      margin: "0 auto", // This is fine for web view
+      margin: "0 auto",
       padding: "5px",
       fontFamily: "Lexend, 'Noto Sans Telugu', sans-serif",
       fontSize: "9.5px",
       lineHeight: 1.25,
       color: "#000",
-      minHeight: "120mm",
+      backgroundColor: "#fff",
+      // We removed minHeight here because CSS handles it
     },
-    // ... (All your other 'styles' objects are perfect) ...
     header: {
       textAlign: "center",
       marginBottom: "6px",
@@ -149,16 +145,9 @@ export default function App() {
   };
 
   return (
-    // Use a React Fragment <> to wrap the styles and the main div
     <>
-      {/* ADD THIS COMPONENT */}
       <PrintStyles />
-      
-      {/* ADD id="receipt-container" TO THIS DIV */}
       <div ref={pdfRef} id="receipt-container" style={styles.container}>
-        
-        {/* ... (All your existing receipt JSX content) ... */}
-        
         <div style={styles.header}>
           <img
             alt="CropSync Logo"
@@ -175,8 +164,6 @@ export default function App() {
         <div style={styles.teluguTitle}>
           {problem_name_te || problem_name_en}
         </div>
-
-        {/* ... (Rest of your code is perfect) ... */}
 
         <div style={styles.infoRow}>
           <strong>Category:</strong> {category}
