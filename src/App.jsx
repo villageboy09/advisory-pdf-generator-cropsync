@@ -94,7 +94,7 @@ export default function App() {
       margin: "0 auto",
       padding: "5px",
       fontFamily: "Lexend, 'Noto Sans Telugu', sans-serif",
-      fontSize: "9.5px",
+      fontSize: "12px",
       lineHeight: 1.25,
       color: "#000",
       backgroundColor: "#fff",
@@ -112,7 +112,7 @@ export default function App() {
     teluguTitle: {
       fontFamily: "'Noto Sans Telugu', Lexend, sans-serif",
       textAlign: "center",
-      fontSize: "11px",
+      fontSize: "12px",
       fontWeight: "700",
       marginBottom: "4px",
     },
