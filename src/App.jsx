@@ -94,7 +94,7 @@ export default function App() {
       margin: "0 auto",
       padding: "5px",
       fontFamily: "Lexend, 'Noto Sans Telugu', sans-serif",
-      fontSize: "12px",
+      fontSize: "9.5px",
       lineHeight: 1.25,
       color: "#000",
       backgroundColor: "#fff",
@@ -118,7 +118,7 @@ export default function App() {
     },
     infoRow: { marginBottom: "4px" },
     h2: {
-      fontSize: "10px",
+      fontSize: "12px",
       fontWeight: "700",
       margin: "6px 0 4px 0",
       borderBottom: "1px solid #000",
@@ -129,7 +129,7 @@ export default function App() {
       padding: "3px",
       backgroundColor: "#f5f5f5",
       border: "1px solid #ddd",
-      fontSize: "9.5px",
+      fontSize: "12px",
     },
     footer: {
       textAlign: "center",
@@ -140,7 +140,7 @@ export default function App() {
     },
     telugu: {
       fontFamily: "'Noto Sans Telugu', Lexend ",
-      fontSize: "9px",
+      fontSize: "12px",
     },
   };
 
